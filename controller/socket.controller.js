@@ -1,9 +1,10 @@
 let socketInstance
 
 export function broadcastMessage(req, res) {
-	const { message } = req.body
+	const { messages } = req.body
 
-    socketInstance.broadcastMessage(message)
+    console.log("Messages > ", req.body)
+    socketInstance.broadcastMessage(messages)
 
 	res.status(201).send("Message sent successfully!!")
 }

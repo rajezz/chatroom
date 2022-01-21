@@ -7,6 +7,7 @@ import errorHandler from "errorhandler"
 import dotenv from "dotenv"
 import mongoose from "mongoose"
 import passport from "passport"
+import cors from "cors"
 
 import apiRoutes from "./routes/api.route.js"
 import { socketInitializer } from "./controller/socket.controller.js"
@@ -36,6 +37,7 @@ mongoose.connection.on("error", (error) => {
 
 const port = process.env.PORT || 1122
 
+app.use(cors())
 app.use(logger("dev"))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -74,7 +76,7 @@ socket.startServer(port, onConnectionCallback)
 
 socketInitializer(socket)
 
-app.use("api/", apiRoutes)
+app.use("/api", apiRoutes)
 
 function onConnectionCallback() {
 	console.log(

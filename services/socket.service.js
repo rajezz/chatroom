@@ -18,6 +18,12 @@ class Socket {
 			console.log("onSocketConnection | Connection established!!")
             console.log("Socket id > ", socket.id)
             
+			socket.on("NEW_MESSAGE_CREATE", (args) => {
+				console.log("NEW_MESSAGE_CREATE event occurred!!", args)
+
+				this.broadcastMessage([args.message])
+			})
+
             socket.on("FETCH_MESSAGES", (args, callback) => {
 
                 console.log("fetch message event called!!")
@@ -52,8 +58,8 @@ class Socket {
 	startServer(port, callback) {
 		this.server.listen(port, callback)
 	}
-	broadcastMessage(message) {
-		this.io.emit("NEW_MESSAGE", { message })
+	broadcastMessage(messages) {
+		this.io.emit("NEW_MESSAGE_CREATED", { messages })
 	}
 }
 
