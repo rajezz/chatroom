@@ -1,4 +1,5 @@
 import { decode } from "jsonwebtoken"
+import APIError from "../utils/APIError.js"
 
 export function verifyUser(req, res) {
     try {
@@ -9,6 +10,6 @@ export function verifyUser(req, res) {
 
 		res.status(200).send({ userInfo: { name, email } })
 	} catch (error) {
-		res.status(500).send({ message: error.message | "Couldn't verify Google token" })
+		throw new APIError(500, error.message ?? "Couldn't verify Google token", error)
 	}
 }

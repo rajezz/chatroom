@@ -12,6 +12,7 @@ import cors from "cors"
 import apiRoutes from "./routes/api.route.js"
 import { socketInitializer } from "./controller/socket.controller.js"
 import Socket from "./services/socket.service.js"
+import APIError from "./utils/APIError.js"
 
 dotenv.config({ path: ".env.development" })
 
@@ -77,6 +78,11 @@ socket.startServer(port, onConnectionCallback)
 socketInitializer(socket)
 
 app.use("/api", apiRoutes)
+
+// send back a 404 error for any unknown api request
+app.use((req, res, next) => {
+  next(new APIError(404, "Resource Not found"))
+});
 
 function onConnectionCallback() {
 	console.log(
