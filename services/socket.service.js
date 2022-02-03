@@ -21,10 +21,10 @@ class Socket {
 					const message = new Message({
 						...args.message
 					})
+					
+					const savedMessage = await message.save()
 
-					await message.save()
-
-					this.broadcastMessage([args.message])
+					this.broadcastMessage([savedMessage])
 				} catch (error) {
 					console.error("NEW_MESSAGE_CREATE | Error catched > ", error)
 				}
